@@ -4,7 +4,7 @@ import classes from '../Input/Input.css';
 const input = (props) => {
    let inputElement = null;
 
-   switch (props.inputtype) {
+   switch (props.elementType) {
       case 'input':
          inputElement = (
             <input
@@ -21,6 +21,17 @@ const input = (props) => {
                {...props.elementConfig}
                value={props.value}
             />
+         );
+         break;
+      case 'select':
+         inputElement = (
+            <select className={classes.inputElement} value={props.value}>
+               {props.elementConfig.options.map((option) => (
+                  <option key={option.value} value={option.value}>
+                     {option.displayValue}
+                  </option>
+               ))}
+            </select>
          );
          break;
       default:
