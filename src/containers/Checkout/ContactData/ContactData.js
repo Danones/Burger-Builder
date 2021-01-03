@@ -5,6 +5,7 @@ import Spinner from '../../../components/UI/Spinner/Spinner';
 import classes from './ContactData.css';
 import axios from '../../../axios-orders';
 import Input from '../../../components/UI/Input/Input';
+import input from '../../../components/UI/Input/Input';
 
 class ContactData extends Component {
    state = {
@@ -17,7 +18,7 @@ class ContactData extends Component {
             },
             value: '',
             validation: {
-               requirder: true,
+               required: true,
             },
             valid: false,
             touched: false,
@@ -30,7 +31,7 @@ class ContactData extends Component {
             },
             value: '',
             validation: {
-               requirder: true,
+               required: true,
             },
             valid: false,
             touched: false,
@@ -58,7 +59,7 @@ class ContactData extends Component {
             },
             value: '',
             validation: {
-               requirder: true,
+               required: true,
             },
             valid: false,
             touched: false,
@@ -71,7 +72,7 @@ class ContactData extends Component {
             },
             value: '',
             validation: {
-               requirder: true,
+               required: true,
             },
             valid: false,
          },
@@ -84,8 +85,11 @@ class ContactData extends Component {
                ],
             },
             value: '',
+            valid: true,
+            validation: {},
          },
       },
+      formIsValid: false,
       loading: false,
    };
 
@@ -140,7 +144,12 @@ class ContactData extends Component {
       updatedFormElement.touched = true;
       updatedOrderForm[inputIdentifier] = updatedFormElement;
 
-      this.setState({ orderForm: updatedOrderForm });
+      let formIsValid = true;
+
+      for (let inputIdentifier in updatedOrderForm) {
+         formIsValid = updatedOrderForm[inputIdentifier].valid && formIsValid;
+      }
+      this.setState({ orderForm: updatedOrderForm, formIsValid: formIsValid });
    };
 
    render() {
@@ -168,7 +177,9 @@ class ContactData extends Component {
                   }
                />
             ))}
-            <Button btnType="Success">ORDER</Button>
+            <Button btnType="Success" disabled={!this.state.formIsValid}>
+               ORDER
+            </Button>
          </form>
       );
       if (this.state.loading) {
